@@ -18,6 +18,7 @@ reset = () => {
   this.setState({current:'0',previous:[],nextIsReset:false});
 }
 addToCurrent = (symbol) =>{
+  console.log("symbol");
   if(['/','+','-','*'].indexOf(symbol) > -1){
    let {previous} = this.state;
     previous.push(this.state.current + symbol);
@@ -32,12 +33,12 @@ addToCurrent = (symbol) =>{
 }
 
 calculate = (symbol) => {
-  let {current,previous,nextIsReset} = this.state;
-  if(this.previous.length > 0){
-    current =  (previous[previous.length - 1] + current);
-    this.setState({current,previous:[],nextIsReset});
+  let {current,previous} = this.state;
+  if(previous.length > 0){
+    current = eval(String(previous[previous.length - 1] + current));
+    this.setState({current,previous:[],nextIsReset: true});
   }else{
-    this.setState({current:this.state.current + symbol});
+    this.setState({current: this.state.current + symbol});
   }
 }
 
@@ -64,7 +65,7 @@ render() {
     {symbol:"^",cols:1,action:this.addToCurrent},
     {symbol:".",cols:1,action:this.addToCurrent},
     {symbol:"/",cols:1,action:this.addToCurrent},
-    {symbol:"=",cols:1,action:this.addToCurrent}
+    {symbol:"=",cols:1,action:this.calculate}
   ];
   return (
     <div className="App">
@@ -73,7 +74,7 @@ render() {
      :null}
     <input className="result" type="text" placeholder={this.state.current} />
     {buttons.map((btn,i)=> {
-      return <Button key={i} symbol ={btn.symbol} cols = {btn.cols} action = {(symbol)=> btn.action(symbol)}/>
+      return <Button key={i}  symbol ={btn.symbol} cols = {btn.cols} action = {(symbol)=> btn.action(symbol)}/>
     })}
     </div>
   )
