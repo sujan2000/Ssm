@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 class Header extends Component{
     render(){
     return(
-        <header className="masthead">
+        <header className="masthead" style={{background:'url{${this.props.image}}'}}>
         <div className="container">
           <div className="masthead-subheading">{this.props.title}</div>
           <div className="masthead-heading text-uppercase">{this.props.subtitle}</div>
@@ -14,6 +14,6 @@ class Header extends Component{
         </div>
       </header>
     );
+        }
     }
-}
 export default Header;
